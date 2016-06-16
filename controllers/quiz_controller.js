@@ -41,10 +41,11 @@ exports.question = function (req, res){
 //GET /quizes/:id/answer
 exports.answer = function (req, res) {
 	models.Quiz.findAll().then(function(quiz){
-		if (req.query.respuesta === quiz[0].respuesta) 
-			res.render('quizes/answer', { respuesta: 'Correcto'});
+		if (req.query.respuesta === quiz[0].respuesta){
+			res.render('quizes/answer', { respuesta: 'Correcto', quiz: quiz[0]});
+		}
 		else
-			res.render('quizes/answer', { respuesta: 'Incorrecto'});
+			res.render('quizes/answer', { respuesta: 'Incorrecto', quiz: quiz[0]});
 	});
 };
 
