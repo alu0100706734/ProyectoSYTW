@@ -2,3 +2,4 @@ node_modules
 *.ejs~
 *.js~
 quiz.sqlite
+.env
