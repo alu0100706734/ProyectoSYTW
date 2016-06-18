@@ -22,11 +22,18 @@
 	<nav class="main" id="n1" role="navigation">
 	   <span><a href="/">Inicio</a></span><br>
 	   <span><a href="/quizes">Preguntas</a></span>
-	   <!--<span><a href="/quizes/question">Comenzar a Jugar</a></span><br>
-	   <span><a href="/quizes/show">Ver listado de preguntas</a></span><br>-->
 	</nav>
 	
 	<section class="main" id="s1">
+	 <% if (errors.length) { %>
+		<span id='ErrorMsgs'>
+			Corregir errores: <br>
+			<% for (var i in errors) { %>
+				<span> <%= errors[i].message %> </span><br>
+			<% } %>
+		</span>
+	<% } %>
+
 	<div><%- body %></div>
 	</section>
 	
