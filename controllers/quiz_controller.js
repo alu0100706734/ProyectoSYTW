@@ -1,10 +1,8 @@
 var models = require ('../models/models.js');
 
 exports.load = function (req, res, next, quizId){
-	console.log("chviato quiz" + quizId);
 	models.Quiz.find(quizId).then(
 		function(quiz) {
-			console.log("chivato quiz2" + quiz);
 			if (quiz){
 			  req.quiz=quiz;
 			  next();
@@ -16,51 +14,54 @@ exports.load = function (req, res, next, quizId){
 
 exports.index = function (req,res) {
 	models.Quiz.findAll().then(function(quizes) {
-	  res.render ('quizes/index', {quizes : quizes});
+	  res.render ('quizes/index', {quizes : quizes, errors: []});
 	}).catch(function(error) {next(error);})
 };
 
 
-
-//GET /quiz/:id
-
 exports.show = function(req,res){
-		res.render('quizes/show', { quiz: req.quiz});
+		res.render('quizes/show', { quiz: req.quiz, errors: []});
 };
 
 
-
-//GET /quizes/question
-exports.question = function (req, res){
+exports.answer = function (req, res) {
 	models.Quiz.findAll().then(function(quiz){
-	console.log("atun: " + quiz[0].respuesta);
-	res.render('quizes/show', {quiz: quiz[0]});
-	})
+		var resultado = 'Incorrecto';
+		if (req.query.respuesta === req.quiz.respuesta)
+			resultado = 'Correcto';
+		res.render('quizes/answer', { quiz: req.quiz,respuesta: resultado, errors: []});
+	});
 };
+
+
 
 exports.new = function(req, res) {
 	var quiz = models.Quiz.build({
 		pregunta: "pregunta", respuesta: "respuesta"
 	});
-	res.render('quizes/new', {quiz: quiz});
+	res.render('quizes/new', {quiz: quiz, errors: []});
 };
 
 exports.create = function(req,res) {
 	var quiz = models.Quiz.build(req.body.quiz);
-	quiz.save({fields: ["pregunta","respuesta"]}).then(function(){
-		res.redirect('/quizes');
+	quiz.validate().then(function(err){
+				if(err)
+				   res.render('quizes/new', {quiz: quiz, errors: err.errors});
+				else {
+					quiz.save({fields: ["pregunta","respuesta"]}).then(function(){
+						res.redirect('/quizes');
+					});
+				}
+	});
+};
+
+
+
+exports.question = function (req, res){
+	models.Quiz.findAll().then(function(quiz){
+	res.render('quizes/show', {quiz: quiz[0]});
 	})
 };
 
-//GET /quizes/:id/answer
-exports.answer = function (req, res) {
-	models.Quiz.findAll().then(function(quiz){
-		if (req.query.respuesta === quiz[0].respuesta){
-			res.render('quizes/answer', { respuesta: 'Correcto', quiz: quiz[0]});
-		}
-		else
-			res.render('quizes/answer', { respuesta: 'Incorrecto', quiz: quiz[0]});
-	});
-};
 
 
