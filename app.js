@@ -27,16 +27,16 @@ app.use(methodOverride('_method'));
 app.use(session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*
+
 app.use(function(req,res,next){
-	if (!req.path.match(/\/login|\/logout)){
+	if (!req.path.match(/\/login|\/logout/)){
 		req.session.redir = req.path;
 	}
 	
 	res.locals.session =req.session;
 	next();
 });
-*/
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
