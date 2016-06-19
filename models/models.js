@@ -28,8 +28,17 @@ var sequelize = new Sequelize(DB_name, user, pwd,
         }
     );
 
+
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
+var Comment = sequelize.import(path.join(__dirname,'comments'));
+
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+exports.Comment = Comment;
 exports.Quiz = Quiz;
+
+
 
 sequelize.sync().then(function() {
 
