@@ -5,6 +5,10 @@ module.exports = function (sequelize, dataTypes) {
 		   type: dataTypes.STRING,
 		   validate: {notEmpty: {msg: "campo comentario vacio"}}
 		},
+		publicado: {
+		   type: dataTypes.BOOLEAN,
+		   defaultValue: false
+		}
 
 	    });
 };
