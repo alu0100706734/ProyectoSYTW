@@ -31,27 +31,43 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 var Comment = sequelize.import(path.join(__dirname,'comments'));
+var User = sequelize.import(path.join(__dirname,'user'));
 
 Comment.belongsTo(Quiz);
 Quiz.hasMany(Comment);
 
+Quiz.belongsTo(User);
+User.hasMany(Quiz);
+
+
+exports.User = User;
 exports.Comment = Comment;
 exports.Quiz = Quiz;
 
 
 
-sequelize.sync().then(function() {
+sequelize.sync({ force: true}).then(function(){
+
+	User.count().then(function (count){
+		if (count === 0) {
+			User.create({username: 'admin', password: '1234', isAdmin: true});
+			User.create({username: 'pepe', password:'5678'}).then(function(){
+					console.log('Usuarios Creados')});
+		};
+	});
+
 
 	Quiz.count().then(function (count){
 		if (count === 0) {
 			Quiz.create({ pregunta: 'Capital de Italia',
 				      respuesta: 'Roma'
-				    });
+			 });
+
 			Quiz.create({ pregunta: 'Capital de portugal',
 				      respuesta: 'Lisboa'
-				    })
+			})
 			.then(function(){
 console.log('Base de datos actualizada')});
-	};
+		};
       }); 
-     });
+});	

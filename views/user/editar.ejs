@@ -1,0 +1,16 @@
+<h2> Modificar información de la cuenta: </h2>
+
+<form method="post" action="/user/<%= user.id%>?_method=put">
+	<label for="resp" class ="rem"> Contraseña: </label><br>
+	
+	<input type="password" id="pass" name="user[password]"/><p>
+
+	<input type="submit" value="Actualizar">
+	<a href="/"><button type="button"> Cancelar </button></a
+</form>
+	
+<form method="post" action ="/user/<%= user.id %>?_method=delete">
+	<button type="submit" onClick="return confirm('Borrar cuenta: <%= user.username %>');">
+	Eliminar cuenta
+	</button>
+</form>

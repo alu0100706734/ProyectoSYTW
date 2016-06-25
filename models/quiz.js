@@ -7,6 +7,6 @@ module.exports = function(sequelize, dataTypes) {
 		respuesta: {
 			 type: dataTypes.STRING,
 			 validate: { notEmpty: {msg: "->campo respuesta vacio"}}
-		}
+		},
 	});
 }

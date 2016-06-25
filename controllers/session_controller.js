@@ -15,7 +15,7 @@ exports.create = function(req, res) {
 			return;
 		}
 	
-		req.session.user = {id:user.id, username: user.username};
+		req.session.user = {id:user.id, username: user.username, isAdmin:user.isAdmin};
 		res.redirect("/");
 	});
 };
@@ -30,6 +30,6 @@ exports.loginRequired = function (req, res, next) {
     if (req.session.user) {
         next();
     } else {
-        res.redirect('/login?redir=' + req.url);
+        res.redirect('/login');
     }
 };
