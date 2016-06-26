@@ -36,9 +36,9 @@ router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizCont
 //rutas cuentas
 router.get('/user', userController.new);
 router.post('/user', userController.create);
-router.get('/user/:userId(\\d+)/editar', sessionController.loginRequired, quizController.own, userController.editar);
-router.put('/user/:userId(\\d+)', sessionController.loginRequired, quizController.own, userController.update);
-router.delete('/user/:userId(\\d+)', sessionController.loginRequired, quizController.own, userController.destroy);
+router.get('/user/:userId(\\d+)/editar', sessionController.loginRequired, userController.own, userController.editar);
+router.put('/user/:userId(\\d+)', sessionController.loginRequired, userController.own, userController.update);
+router.delete('/user/:userId(\\d+)', sessionController.loginRequired, userController.own, userController.destroy);
 router.get('/user/:userId(\\d+)/perfil', quizController.perfil);
 
 //rutas comentarios
