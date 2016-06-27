@@ -1,3 +1,0 @@
-    <h1>Bienvenido a <%= title %></h1>
-    <p>Tu portal de juegos</p>
-    <p><a href="/quizes/show"> Comience a jugar </a></p>
