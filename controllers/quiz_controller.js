@@ -90,6 +90,19 @@ exports.update = function(req,res) {
 	});
 };
 
+
+exports.res = function (req,res){
+			var resultado = 'Incorrecto';
+				if(req.query.respuesta === req.quiz.respuesta){
+					req.session.user.aciertos = req.session.user.aciertos +1;
+					resultado = 'Correcto';
+				} else{
+					req.session.user.fallos = req.session.user.fallos +1;
+				}
+				res.render('quizes/res', {quiz: req.quiz+1, respuesta: resultado, errors :[]});
+
+};
+
 exports.destroy = function (req,res){
 	req.quiz.destroy().then(function(){
 		res.redirect('/quizes');
@@ -98,9 +111,12 @@ exports.destroy = function (req,res){
 
 
 exports.question = function (req, res){
-	models.Quiz.findAll().then(function(quiz){
-	res.render('quizes/show', {quiz: quiz[0], errors: []});
-	})
+	models.Quiz.count().then(function(count){
+		var aleatorio = Math.floor((Math.random() * count)+1);
+		models.Quiz.find(aleatorio).then(function(pregunta){
+    			res.render('quizes/question', {quiz: pregunta, aleatorio: aleatorio, errors: []});
+		});
+	});
 };
 
 exports.perfil = function(req,res){

@@ -1,0 +1,13 @@
+<form method="get" action ='/quizes/question/<%= aleatorio %>/answer'>
+
+	Pregunta: <%= quiz.pregunta %> <p><br>
+	<input type="text" name ="respuesta" placeholder="respuesta" />
+	<input type="submit" value="Enviar">
+</form>
+
+<p><strong>Comentarios:</strong></p>
+<%for(index in quiz.Comments) {%>
+	<%if(quiz.Comments[index].publicado || session.user){%>
+		<p>- <%=quiz.Comments[index].texto%></p>
+	<%}%>
+<%}%>

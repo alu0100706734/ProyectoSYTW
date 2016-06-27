@@ -13,6 +13,14 @@ module.exports = function(sequelize, dataTypes) {
 		isAdmin: {
 			type: dataTypes.BOOLEAN,
 			defaultValue: false
+		},
+		aciertos: {
+			type: dataTypes.INTEGER,
+			defaultValue: 0
+		},
+		fallos: {
+			type: dataTypes.INTEGER,
+			defaultValue: 0
 		}
 		
 	});
