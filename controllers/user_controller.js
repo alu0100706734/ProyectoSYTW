@@ -1,5 +1,18 @@
 var models = require('../models/models.js');
 
+exports.own = function(req,res,next){
+
+	var quizUser = req.user.id;
+	var loginUser = req.session.user.id;
+	var isAdmin = req.session.user.isAdmin;
+
+	if (isAdmin || quizUser == loginUser)
+		next();
+	else
+		res.redirect('/');
+};
+
+
 exports.load = function(req, res, next, userId){
 	models.User.find({ where: {id: Number(userId) }}).then(function(user) {
 		if (user) {
@@ -72,7 +85,7 @@ exports.update = function (req,res,next){
 exports.destroy = function(req, res){
 	req.user.destroy().then( function(){
 		delete req.session.user;
-		res.redirect('/');
+		res.redirect('/quizes');
 	}).catch(function(error){next(error)});
 };
 	

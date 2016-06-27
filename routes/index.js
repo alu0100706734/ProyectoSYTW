@@ -27,7 +27,7 @@ router.get('/quizes/:quizId(\\d+)', quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 router.get('/quizes/new', sessionController.loginRequired, quizController.new);
 router.post('/quizes/create', sessionController.loginRequired, quizController.create);
-//router.get('/quizes/question', sessionController.loginRequired, quizController.question);
+router.get('/quizes/question', sessionController.loginRequired, quizController.question);
 router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.own, quizController.editar);
 router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.own, quizController.update);
 router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.own, quizController.destroy);

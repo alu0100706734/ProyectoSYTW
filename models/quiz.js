@@ -8,5 +8,9 @@ module.exports = function(sequelize, dataTypes) {
 			 type: dataTypes.STRING,
 			 validate: { notEmpty: {msg: "->campo respuesta vacio"}}
 		},
+		UserId: {
+			type: dataTypes.INTEGER,
+			
+		}
 	});
 }

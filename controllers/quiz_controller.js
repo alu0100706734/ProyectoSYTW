@@ -1,11 +1,11 @@
 var models = require ('../models/models.js');
 
 exports.own = function(req,res,next){
-	var quizUser = req.quiz.userId;
+	var quizOwn = req.quiz.UserId;
 	var loginUser = req.session.user.id;
 	var isAdmin = req.session.user.isAdmin;
 
-	if (isAdmin || quizUser == loginUser)
+	if (isAdmin || quizOwn == loginUser)
 		next();
 	else
 		res.redirect('/');
@@ -57,12 +57,13 @@ exports.new = function(req, res) {
 };
 
 exports.create = function(req,res) {
+	req.body.quiz.UserId = req.session.user.id;
 	var quiz = models.Quiz.build(req.body.quiz);
 	quiz.validate().then(function(err){
 				if(err)
 				   res.render('quizes/new', {quiz: quiz, errors: err.errors});
 				else {
-					quiz.save({fields: ["pregunta","respuesta"]}).then(function(){
+					quiz.save({fields: ["pregunta","respuesta","UserId"]}).then(function(){
 						res.redirect('/quizes');
 					});
 				}
@@ -71,7 +72,7 @@ exports.create = function(req,res) {
 
 exports.editar = function(req,res){
 	var quiz = req.quiz;
-	res.render('quizes/editar', {quiz: quiz, errors: []});
+	res.render('quizes/edit', {quiz: quiz, errors: []});
 };
 
 exports.update = function(req,res) {
@@ -80,7 +81,7 @@ exports.update = function(req,res) {
 
 	req.quiz.validate().then(function(err){
 		if (err){
-			res. render('quizes/editar', {quiz: req.quiz, errors: err.errors});
+			res. render('quizes/edit', {quiz: req.quiz, errors: err.errors});
 		}
 		else {
 			req.quiz.save({ fields: ["pregunta", "respuesta"]})
@@ -103,12 +104,7 @@ exports.question = function (req, res){
 };
 
 exports.perfil = function(req,res){
-	var options= {};
-	if(req.user){
-		options.where = {UserId: req.user.id}
-	}
-	
-	models.Quiz.findAll(options).then(function(quizes){
+	models.Quiz.findAll({where:{userId: req.user.id}}).then(function(quizes){
 		res.render('quizes/perfil', {quizes: quizes, errors: []});
 	}).catch(function(error){next(error)});
 };

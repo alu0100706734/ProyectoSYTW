@@ -60,11 +60,26 @@ sequelize.sync({ force: true}).then(function(){
 	Quiz.count().then(function (count){
 		if (count === 0) {
 			Quiz.create({ pregunta: 'Capital de Italia',
-				      respuesta: 'Roma'
+				      respuesta: 'Roma',
+				      UserId: '1'
 			 });
 
+			Quiz.create({ pregunta: 'Despues del 4 viene el',
+				      respuesta: '8',
+				      UserId: '1'
+			});
+			Quiz.create({ pregunta: ' Velocidad media de una golondrina sin carga',
+				      respuesta: 'de que especie?',
+				      UserId: '1'
+			});
+			Quiz.create({ pregunta: 'eche eche eche, que beben las vacas',
+				      respuesta: 'agua',
+				      UserId: '1'
+			});
+			
 			Quiz.create({ pregunta: 'Capital de portugal',
-				      respuesta: 'Lisboa'
+				      respuesta: 'Lisboa',
+				      UserId: '1'
 			})
 			.then(function(){
 console.log('Base de datos actualizada')});
