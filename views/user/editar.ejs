@@ -1,8 +1,9 @@
-<h2> Modificar información de la cuenta: </h2>
+<h2>Modificar cuenta: </h2>
 
 <form method="post" action="/user/<%= user.id%>?_method=put">
-	<label for="resp" class ="rem"> Contraseña: </label><br>
-	
+	<% if(session.user.id === user.id){ %>
+	<p> Cambiar contraseña </p>
+	<label for="resp" class ="rem"> Introducir nueva contraseña: </label>
 	<input type="password" id="pass" name="user[password]"/><p>
 
 	<input type="submit" value="Actualizar">
@@ -13,4 +14,8 @@
 		  <button type="submit" onClick="return confirm('Borrar: <%= user.username%>');">
 			Eliminar cuenta
 	          </button>
-		</form>
+	<%} else {%>
+		<p> Aquí no tenemos el perfil de <strong>tu madre</strong>
+	
+	<% } %>
+</form>

@@ -1,21 +1,35 @@
-<h3> Administración </h3>
+<h3> Administrar preguntas: </h3>
 <ul id="preguntas">
-	<% for (var i=0; i<quizes.length; i++) {%>
-	<li>
-		<span> Pregunta <%= (i+1) %>: </span><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a>
-		<% if(session.user){ %>
-			<% if(session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
+	<% if(quizes.length == 0){%>
+		<p> No has creado ninguna pregunta aún </p>
+	<%} else{ %>
+		<% for (var i=0; i<quizes.length; i++) {%>
+			<li>
+			<span> Pregunta <%= (i+1) %>: </span><a href="/quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a>
+			<% if(session.user){ %>
+				<% if(session.user.isAdmin || session.user.id === quizes[i].UserId) {%>
 				<form style="display:inline;" method="post" action="/quizes/<%= quizes[i].id %>?_method=delete">
 				<button type="submit" onClick="return confirm('Borrar: <%= quizes[i].pregunta%>');">
 					Borrar pregunta</button>
 				</form>
 				<a href="/quizes/<%=quizes[i].id %>/edit"><button> Editar</button></a>
+				<% } %>
 			<% } %>
-		<% } %>
 	
-	</li>
-	<% } %>
+			</li>
+		<% } %>
+	   <%}%>
+
 </ul>
 
 
-	
+<h3> Estadísticas <h3>
+
+<ul id="estadisticas">
+	<% if (session.user.aciertos != undefined && session.user.fallos != undefined) {%>
+	<p> <span style="color:green">Preguntas acertadas: <%= session.user.aciertos %> </span><br>
+	<p><span style="color:red"> Preguntas erroneas: <%= session.user.fallos %> </span><br>
+	<p><span>Total preguntas respondidas: <%=session.user.aciertos + session.user.fallos%> </span> <br>
+	<%} else{%>
+		<p><span style="color:blue"> Aún no has jugado lo suficiente a nuestro Quiz como para tener unas estadísticas. Anímate a jugar --> <a href="/quizes/question"><strong>Quiz</strong></a></p></ul></span>
+	<% }%>
